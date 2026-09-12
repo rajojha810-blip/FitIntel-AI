@@ -2,11 +2,11 @@ import os
 import sys
 import requests
 import streamlit as st
-from dotenv import load_dotenv
+
 
 # 1. Environment variables load karein
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
-load_dotenv(dotenv_path=dotenv_path)
+
 
 # .env se API key auto-fetch karein
 ENV_API_KEY = os.getenv("GEMINI_API_KEY")
