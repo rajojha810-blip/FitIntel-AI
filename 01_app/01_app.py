@@ -3,7 +3,6 @@ import sys
 import os
 import importlib.util
 import pandas as pd
-from dotenv import load_dotenv
 
 # 1. Dynamic Path Resolution
 base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -18,7 +17,7 @@ if db_path not in sys.path:
     sys.path.append(db_path)
 
 # .env configuration load (03_Analytics folder se)
-load_dotenv(dotenv_path=os.path.join(analytics_path, ".env"))
+#load_dotenv(dotenv_path=os.path.join(analytics_path, ".env"))
 env_api_key = os.getenv("GEMINI_API_KEY")
 
 def load_module(module_name, relative_path):
