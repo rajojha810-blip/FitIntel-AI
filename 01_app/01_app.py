@@ -27,7 +27,7 @@ def load_module(module_name, relative_path):
     spec.loader.exec_module(module)
     return module
 
-# Modules Loaded
+# Modules Loaded (Fixed path for db_connection)
 db_connection = load_module("db_connection", os.path.join("02_database", "db_connection.py"))
 analytics = load_module("progress_analytics", os.path.join("03_Analytics", "progress_analytics.py"))
 rule_engine = load_module("rule_engine", os.path.join("03_Analytics", "rule_engine.py"))
@@ -282,7 +282,6 @@ elif page == "🏋️ Workout Tracker":
             conn = get_connection()
             cursor = conn.cursor()
             
-            # Check if workouts table exists, create if missing
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS user_workouts (
                     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -309,7 +308,6 @@ elif page == "🏋️ Workout Tracker":
         except Exception as e:
             st.error(f"❌ Failed to log workout: {e}")
 
-    # Display logged workouts
     try:
         conn = get_connection()
         df_workouts = pd.read_sql("SELECT workout_date, muscle_group, exercise_name, sets, reps, weight_kg FROM user_workouts WHERE user_id = %s ORDER BY workout_date DESC", conn, params=(current_user_id,))
@@ -332,7 +330,6 @@ elif page == "📊 Dashboard Analytics":
 
     data = analytics.get_daily_metrics()
     
-    # Filter dataset for logged-in user if column exists
     if "user_id" in data.columns:
         data = data[data["user_id"] == current_user_id]
 
@@ -389,7 +386,6 @@ elif page == "🔮 ML Weight Prediction":
         st.divider()
         st.subheader("📉 Actual vs Predicted Weight Trend Chart")
         
-        # FIX: Duplicate dates cleanup kar ke pivot table apply karein
         df_clean = df_pred.drop_duplicates(subset=['date', 'Type'])
         chart_data = df_clean.pivot(index='date', columns='Type', values='weight_kg')
         st.line_chart(chart_data)
@@ -413,16 +409,13 @@ elif page == "🤖 AI Coach":
     st.divider()
     st.subheader("💬 Ask Your AI Fitness Coach")
 
-    # Initialize session state for chat messages
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # Display past chat messages
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    # Chat input box
     if user_input := st.chat_input("Ask about your diet, workouts, or weight progress..."):
         st.session_state.messages.append({"role": "user", "content": user_input})
         with st.chat_message("user"):
