@@ -28,7 +28,7 @@ def load_module(module_name, relative_path):
     return module
 
 # Modules Loaded
-db_connection = load_module("db_connection", os.path.join("03_Analytics", "db_connection.py"))
+db_connection = load_module("db_connection", os.path.join("02_database", "db_connection.py"))
 analytics = load_module("progress_analytics", os.path.join("03_Analytics", "progress_analytics.py"))
 rule_engine = load_module("rule_engine", os.path.join("03_Analytics", "rule_engine.py"))
 prediction = load_module("prediction", os.path.join("03_Analytics", "03_prediction.py"))
