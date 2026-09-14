@@ -4,3 +4,5 @@ mysql-connector-python
 streamlit
 plotly
 scikit-learn
+python-dotenv
+google-generativeai
