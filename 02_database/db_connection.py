@@ -9,7 +9,7 @@ def get_connection():
             user=st.secrets["DB_USER"],
             password=st.secrets["DB_PASSWORD"],
             database=st.secrets["DB_NAME"],
-            use_pure=True
+            ssl={"ssl":{}}
         )
         return connection
     except Exception as e:
