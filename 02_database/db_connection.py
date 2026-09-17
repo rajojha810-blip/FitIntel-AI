@@ -1,3 +1,4 @@
+import traceback
 import mysql.connector
 import streamlit as st
 
@@ -13,5 +14,5 @@ def get_connection():
         )
         return connection
     except Exception as e:
-        st.error(f"Database connection error: {e}")
+        st.error(traceback.format_exc())
         return None
