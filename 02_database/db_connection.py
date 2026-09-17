@@ -8,7 +8,8 @@ def get_connection():
             port=int(st.secrets["DB_PORT"]),
             user=st.secrets["DB_USER"],
             password=st.secrets["DB_PASSWORD"],
-            database=st.secrets["DB_NAME"]
+            database=st.secrets["DB_NAME"],
+            ssl_verify_cert=False
         )
         return connection
     except Exception as e:
